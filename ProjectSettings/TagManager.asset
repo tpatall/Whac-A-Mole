@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Hole
+    uniqueID: 188175797
+    locked: 0
+  - name: Mole
+    uniqueID: 1538888303
+    locked: 0
