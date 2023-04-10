@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     [SerializeField]
     [Tooltip("Total game duration in seconds. Choose a number from 60 to 300.")]
-    [Range(60, 300)]
+    [Range(20, 300)]
     private int gameDuration;
 
     /// <summary>
@@ -63,6 +63,12 @@ public class GameController : MonoBehaviour
     /// </summary>
     [SerializeField]
     private Scoreboard scoreboard;
+
+    /// <summary>
+    ///     Reference to the results panel.
+    /// </summary>
+    [SerializeField]
+    private ResultsPanel resultsPanel;
 
     /// <summary>
     ///     Total time remaining when the previous mole spawned. 
@@ -95,6 +101,10 @@ public class GameController : MonoBehaviour
     /// </summary>
     private float TimeBetweenSpawn { get; set; }
 
+    /// <summary>
+    ///     Initialization of game variables.
+    /// </summary>
+    /// <param name="difficulty">Chosen difficulty</param>
     public void SetUp(Difficulty difficulty) {
         lastSpawn = gameDuration - 3;
         IsGameRunning = false;
@@ -107,14 +117,19 @@ public class GameController : MonoBehaviour
         InterpretDifficulty(difficulty);
         GenerateMoleHills();
     }
-
+    
+    /// <summary>
+    ///     Convert difficulty enum to actual rules.
+    /// </summary>
+    /// <param name="difficulty">Chosen difficulty.</param>
     private void InterpretDifficulty(Difficulty difficulty) {
-        // Number of molehills in the game
+        // Default number of molehills
         int molehills = 1;
 
-        // Total time (in seconds) that a mole can be shown
+        // Default time a mole can be shown
         float showTime = 1f;
 
+        // Default time between spawning of moles
         int timeBetweenSpawn = 2;
 
         switch (difficulty) {
@@ -157,9 +172,9 @@ public class GameController : MonoBehaviour
         IsGameRunning = false;
         stopWatch.StopStopwatch();
 
-        GameManager.Instance.UpdateGameState(GameState.TearDown);
+        resultsPanel.UpdateScore(Score);
 
-        SaveHighScore();
+        GameManager.Instance.UpdateGameState(GameState.TearDown);
     }
 
     /// <summary>
@@ -256,12 +271,5 @@ public class GameController : MonoBehaviour
         }
 
         mole.Show();
-    }
-
-    /// <summary>
-    ///     Save the result to the list of highscores.
-    /// </summary>
-    private void SaveHighScore() {
-        // Code to save high score to a file or database
     }
 }

@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void HandleSetUp() {
-        gameController.SetUp(Difficulty.HARD);
+        gameController.SetUp(Difficulty.MEDIUM);
 
         StartCoroutine(WaitJustOneMoment());
 
@@ -90,7 +90,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void HandleResults() {
-        UIManager.Instance.ShowResults();
+        //UIManager.Instance.ShowResults();
     }
 }
 

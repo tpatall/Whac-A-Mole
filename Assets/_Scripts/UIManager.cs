@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject rulesPanel, resultsPanel;
+    private GameObject rulesPanel, gamePanel, resultsPanel;
 
     protected override void Awake() {
         base.Awake();
@@ -20,22 +20,11 @@ public class UIManager : Singleton<UIManager>
 
     private void GameManagerOnGameStateChanged(GameState state) {
         rulesPanel.SetActive(state == GameState.Rules);
+        gamePanel.SetActive(state == GameState.Play);
         resultsPanel.SetActive(state == GameState.Results);
     }
 
     public void BeginPressed() {
         GameManager.Instance.UpdateGameState(GameState.SetUp);
-    }
-
-    public void ShowResults() {
-        
-    }
-
-    public void RestartPressed() {
-        
-    }
-
-    public void QuitPressed() {
-        
     }
 }
