@@ -653,7 +653,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 347652440}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1853678599}
+        m_TargetAssemblyTypeName: ResultsPanel, Assembly-CSharp
+        m_MethodName: PlayAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &347652440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3317,7 +3329,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1398725980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1853678599}
+        m_TargetAssemblyTypeName: ResultsPanel, Assembly-CSharp
+        m_MethodName: Home
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1398725980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3368,7 +3392,7 @@ GameObject:
   - component: {fileID: 1512482782}
   - component: {fileID: 1512482781}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4250,7 +4274,7 @@ GameObject:
   - component: {fileID: 1951770340}
   - component: {fileID: 1951770339}
   m_Layer: 5
-  m_Name: Text (TMP) (4)
+  m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
