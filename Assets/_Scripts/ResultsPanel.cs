@@ -19,7 +19,7 @@ public class ResultsPanel : MonoBehaviour
     ///     Reference to the Text field where an error could be shown if the input is incorrect.
     /// </summary>
     [SerializeField]
-    private TextMeshProUGUI inputFieldError;
+    private TextMeshProUGUI errorText;
 
     /// <summary>
     ///     The final score.
@@ -41,15 +41,25 @@ public class ResultsPanel : MonoBehaviour
         finalScoreText.text = finalScore.ToString();
     }
 
+    public void PlayAgain() {
+        Submit();
+        // LoadScene(this);
+    }
+
+    public void Home() {
+        Submit();
+        // LoadScene(menu);
+    }
+
     /// <summary>
     ///     Submit the score and player-name when the latter is filled in.
     /// </summary>
-    public void Submit() {
+    private void Submit() {
         if (inputField.text == "") {
-            inputFieldError.text = "To submit a score you need to give a name.";
+            errorText.text = "To submit a score you need to give a name. If you do not want to save your score, leave the name empty";
         }
         else {
-            inputFieldError.text = "";
+            errorText.text = "";
             SaveScore();
         }
     }

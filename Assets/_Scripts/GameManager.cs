@@ -126,9 +126,7 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     ///     Handle the results of the game.
     /// </summary>
-    private void HandleResults() {
-        //UIManager.Instance.ShowResults();
-    }
+    private void HandleResults() { }
 }
 
 public enum GameState
