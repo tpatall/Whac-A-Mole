@@ -27,11 +27,17 @@ public class ResultsPanel : MonoBehaviour
     private int finalScore;
 
     /// <summary>
+    ///     The chosen difficulty.
+    /// </summary>
+    private Difficulty difficulty;
+
+    /// <summary>
     ///     Update the achieved final score.
     /// </summary>
     /// <param name="score">The final score.</param>
-    public void UpdateScore(int score) {
+    public void UpdateScore(int score, Difficulty difficulty) {
         finalScore = score;
+        this.difficulty = difficulty;
         finalScoreText.text = finalScore.ToString();
     }
 
@@ -53,6 +59,6 @@ public class ResultsPanel : MonoBehaviour
     /// </summary>
     private void SaveScore() {
         Highscores highscores = new Highscores();
-        highscores.UpdateHighScores(inputField.text, finalScore);
+        highscores.UpdateHighScores(inputField.text, finalScore, difficulty);
     }
 }
