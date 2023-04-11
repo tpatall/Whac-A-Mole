@@ -182,4 +182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394f751e97a46fa419a74e2d2f49c79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moleSprite: {fileID: 21300000, guid: e0f748af241fe46419cc49b144399dcc, type: 3}
+  deadSprite: {fileID: 21300000, guid: c4207ac535200f542b6dcb759973bedf, type: 3}
   IsVisible: 0

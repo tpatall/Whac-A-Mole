@@ -75,6 +75,8 @@ public class GameController : MonoBehaviour
     /// </summary>
     private float lastSpawn;
 
+    private Difficulty difficulty;
+
     /// <summary>
     ///     Whether the game is currently running. Used for managing remaining time.
     /// </summary>
@@ -172,7 +174,7 @@ public class GameController : MonoBehaviour
         IsGameRunning = false;
         stopWatch.StopStopwatch();
 
-        resultsPanel.UpdateScore(Score);
+        resultsPanel.UpdateScore(Score, difficulty);
 
         GameManager.Instance.UpdateGameState(GameState.TearDown);
     }
@@ -182,7 +184,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="mole"></param>
     public void WhackMole(Mole mole) {
-        mole.Hide(false);
+        mole.Whacked();
 
         Score += scoreIncrement;
         scoreboard.UpdateScore(Score);
