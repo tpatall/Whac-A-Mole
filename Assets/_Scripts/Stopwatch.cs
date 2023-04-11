@@ -9,6 +9,14 @@ using TMPro;
 public class Stopwatch : MonoBehaviour
 {
     /// <summary>
+    ///     Fade timer color to red over 5 seconds to indicate time running out.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("Fade timer color to red over 5 seconds to indicate time running out. Choose a starting point of seconds left.")]
+    [Range(0, 30)]
+    private int fadeTimerColor;
+
+    /// <summary>
     ///     Reference to the Text field where the stopwatch is shown.
     /// </summary>
     [SerializeField]
@@ -39,15 +47,18 @@ public class Stopwatch : MonoBehaviour
                 CurrentTime -= Time.deltaTime;
 
                 // Fade to red for the last 20 seconds to indicate time running out.
-                if (CurrentTime > 15) {
-                    currentTimeText.color = Color.black;
-                }
-                else if (CurrentTime > 10) {
-                    float progress = 1f / (CurrentTime - 15);
-                    currentTimeText.color = new Color(0f + progress, 0f, 0f, 1f);
-                }
-                else {
-                    currentTimeText.color = Color.red;
+                if (CurrentTime < fadeTimerColor) {
+                    if (CurrentTime > (fadeTimerColor - 5)) {
+                        float progress = 1f / (CurrentTime - 10);
+                        Color fadingRed = new Color(0f + progress, 0f, 0f, 1f);
+
+                        currentTimeText.faceColor = fadingRed;
+                        currentTimeText.color = fadingRed;
+                    }
+                    else {
+                        currentTimeText.faceColor = Color.red;
+                        currentTimeText.color = Color.red;
+                    }
                 }
             }
 
