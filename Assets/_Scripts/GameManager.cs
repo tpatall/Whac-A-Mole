@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 ///     Controls the enum-based state switching.
@@ -12,6 +14,9 @@ using UnityEngine;
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField]
+    private ToggleGroup toggles;
+
     [SerializeField]
     private GameController gameController;
 
@@ -56,15 +61,10 @@ public class GameManager : Singleton<GameManager>
     }
 
     /// <summary>
-    ///     Get the chosen difficulty setting from the rules page.
+    ///     Handle the game setup.
     /// </summary>
-    /// <param name="difficulty">Chosen difficulty.</param>
-    public void SetUp(Difficulty difficulty) {
-        gameController.SetUp(difficulty);
-    }
-
     private void HandleSetUp() {
-        gameController.SetUp(Difficulty.MEDIUM);
+        gameController.SetUp(GetDifficulty());
 
         StartCoroutine(WaitJustOneMoment());
 
@@ -74,11 +74,45 @@ public class GameManager : Singleton<GameManager>
             UpdateGameState(GameState.Play);
         }
     }
+    
+    /// <summary>
+    ///     Get the difficulty from the difficulty-toggles.
+    /// </summary>
+    /// <returns>The chosen difficulty.</returns>
+    private Difficulty GetDifficulty() {
+        Toggle activeToggle = toggles.GetFirstActiveToggle();
+        string difficultyText = activeToggle.GetComponentInChildren<TextMeshProUGUI>().text;
 
+        Difficulty difficulty;
+        switch (difficultyText) {
+            case "Easy":
+                difficulty = Difficulty.EASY;
+                break;
+            case "Medium":
+                difficulty = Difficulty.MEDIUM;
+                break;
+            case "Hard":
+                difficulty = Difficulty.HARD;
+                break;
+            default:
+                difficulty = Difficulty.EASY;
+                break;
+        }
+
+        return difficulty;
+    }
+
+    /// <summary>
+    ///     Handle the game start.
+    /// </summary>
     private void HandlePlay() {
         gameController.StartGame();
     }
 
+    /// <summary>
+    ///     Handle tearing down the game scene.
+    ///     Useful for setting a delay so the change isn't instant.
+    /// </summary>
     private void HandleTearDown() {
         StartCoroutine(WaitForTearDown());
 
@@ -89,6 +123,9 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    /// <summary>
+    ///     Handle the results of the game.
+    /// </summary>
     private void HandleResults() {
         //UIManager.Instance.ShowResults();
     }
