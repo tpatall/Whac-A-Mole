@@ -32,8 +32,8 @@ public class TimerUI : MonoBehaviour
     /// </summary>
     private float timeRemaining = 0f;
 
-    // Update is called once per frame
-    void Update() {
+    // Update is called once per frame.
+    private void Update() {
         if (gameController.IsGameRunning) {
             timeRemaining = gameController.TimeRemaining;
             if (timeRemaining > 0) {
