@@ -54,7 +54,7 @@ public class TimerUI : MonoBehaviour
             }
 
             TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
-            currentTimeText.text = time.ToString(@"ss");
+            currentTimeText.text = Math.Round(time.TotalSeconds).ToString();
         }
     }
 }
