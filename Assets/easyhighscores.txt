@@ -1,0 +1,5 @@
+FootballGODD,450
+TheFlexTRex,120
+BobbyJoe,100
+MariposaLareina,50
+Tommy123,10
