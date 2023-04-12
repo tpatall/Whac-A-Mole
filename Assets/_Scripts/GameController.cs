@@ -15,8 +15,8 @@ public class GameController : MonoBehaviour
     ///     Total game duration in seconds.
     /// </summary>
     [SerializeField]
-    [Tooltip("Total game duration in seconds. Choose a number from 60 to 300.")]
-    [Range(20, 300)]
+    [Tooltip("Total game duration in seconds.")]
+    [Range(10, 300)]
     private int gameDuration;
 
     /// <summary>
