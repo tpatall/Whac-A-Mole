@@ -41,6 +41,16 @@ public class GameController : MonoBehaviour
     ///     Time between spawning a new mole, in seconds.
     /// </summary>
     private float timeBetweenSpawn;
+
+    /// <summary>
+    ///     Minimum time a mole can show itself.
+    /// </summary>
+    private float minShowTime;
+
+    /// <summary>
+    ///     Maximum time a mole can show itself.
+    /// </summary>
+    private float maxShowTime;
     
     /// <summary>
     ///     Reference to the gameboard.
@@ -48,9 +58,9 @@ public class GameController : MonoBehaviour
     private GameBoard gameBoard;
 
     /// <summary>
-    ///     Get the Moles-list from the gameboard.
+    ///     List of Mole objects.
     /// </summary>
-    public List<Mole> Moles => gameBoard.Moles;
+    public List<Mole> Moles { get; private set; }
 
     /// <summary>
     ///     Total time remaining in this game.
@@ -77,6 +87,8 @@ public class GameController : MonoBehaviour
         TimeRemaining = gameDuration;
         Score = 0;
 
+        Moles = new List<Mole>();
+
         resultsPanel.SaveDifficulty(difficulty);
 
         InterpretDifficulty(difficulty);
@@ -88,38 +100,55 @@ public class GameController : MonoBehaviour
     /// <param name="difficulty">Chosen difficulty.</param>
     private void InterpretDifficulty(Difficulty difficulty) {
         // Default number of molehills.
-        int moleHills = 1;
+        int moleHills = 6;
 
         // Default time a mole can be shown.
-        float showTime = 1f;
+        float minShowTime = 2f, maxShowTime = 2f;
 
         // Default time between spawning of moles.
-        int timeBetweenSpawn = 2;
+        float timeBetweenSpawn = 1.5f;
 
         switch (difficulty) {
             case Difficulty.EASY:
                 moleHills = 6;
-                showTime = 2f;
-                timeBetweenSpawn = 3;
+                minShowTime = 1f;
+                maxShowTime = 2f;
+                timeBetweenSpawn = 1.5f;
                 break;
             case Difficulty.MEDIUM:
                 moleHills = 9;
-                showTime = 1.75f;
-                timeBetweenSpawn = 2;
+                minShowTime = 1f;
+                maxShowTime = 1.5f;
+                timeBetweenSpawn = 0.75f;
                 break;
             case Difficulty.HARD:
                 moleHills = 12;
-                showTime = 1.5f;
-                timeBetweenSpawn = 1;
-                break;
-            default:
+                minShowTime = 0.75f;
+                maxShowTime = 1.25f;
+                timeBetweenSpawn = 0.5f;
                 break;
         }
 
         this.timeBetweenSpawn = timeBetweenSpawn;
+        this.minShowTime = minShowTime;
+        this.maxShowTime = maxShowTime;
 
         // Create a gameboard that instantiates and maintains the mole hills on the board.
-        gameBoard = new GameBoard(this, hillPrefab, moleHills, showTime);
+        gameBoard = new GameBoard(this, moleHills);
+    }
+
+    /// <summary>
+    ///     Instantiate a mole object attached to a hill object.
+    /// </summary>
+    /// <param name="worldPosition">The position in the world this mole should be instantiated on.</param>
+    public void InstantiateMoles(Vector2 worldPosition) {
+        var hillObject = Instantiate(hillPrefab);
+        hillObject.transform.SetParent(gameObject.transform);
+        hillObject.transform.position = worldPosition;
+
+        Mole mole = hillObject.GetComponentInChildren<Mole>();
+        mole.SetUp(this, minShowTime, maxShowTime);
+        Moles.Add(mole);
     }
 
     /// <summary>
@@ -177,6 +206,7 @@ public class GameController : MonoBehaviour
         while (mole == null) {
             mole = Moles[Random.Range(0, Moles.Count)];
 
+            // If the mole is visible, then it is currently active and a new mole must be chosen.
             if (mole.IsVisible) {
                 mole = null;
             }

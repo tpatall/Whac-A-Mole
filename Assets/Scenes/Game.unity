@@ -4418,7 +4418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VisibleMoles: 0
-  gameDuration: 30
+  gameDuration: 150
   hillPrefab: {fileID: 165455496854185155, guid: 1f094e861b5e83940a35c500d5068c8b, type: 3}
   resultsPanel: {fileID: 1853678599}
 --- !u!1 &2032639111

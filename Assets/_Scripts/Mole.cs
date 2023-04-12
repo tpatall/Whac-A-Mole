@@ -21,7 +21,12 @@ public class Mole : MonoBehaviour
     /// <summary>
     ///     Show-time in seconds.
     /// </summary>
-    private float showTime;
+    private float minShowTime;
+
+    /// <summary>
+    ///     Show-time in seconds.
+    /// </summary>
+    private float maxShowTime;
 
     /// <summary>
     ///     Reference to the gameController.
@@ -51,12 +56,13 @@ public class Mole : MonoBehaviour
     /// <summary>
     ///     SetUp this instance of the mole class.
     /// </summary>
-    public void SetUp(GameController gameController, float showTime) {
+    public void SetUp(GameController gameController, float minShowTime, float maxShowTime) {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         this.gameController = gameController;
-        this.showTime = showTime;
-        CurrentTime = showTime;
+        this.minShowTime = minShowTime;
+        this.maxShowTime = maxShowTime;
+        CurrentTime = GetRandomShowTime();
 
         IsVisible = false;
         gameObject.SetActive(false);
@@ -76,8 +82,8 @@ public class Mole : MonoBehaviour
     ///     Make the mole visible to the player.
     /// </summary>
     public void Show() {
+        CurrentTime = GetRandomShowTime();
         spriteRenderer.sprite = moleSprite;
-        Whacked = false;
 
         IsVisible = true;
         gameController.VisibleMoles++;
@@ -109,6 +115,14 @@ public class Mole : MonoBehaviour
         gameController.VisibleMoles--;
         gameObject.SetActive(false);
 
-        CurrentTime = showTime;
+        Whacked = false;
+    }
+
+    /// <summary>
+    ///     Get random show time between the set minimum and maximum.
+    /// </summary>
+    /// <returns>A random show time.</returns>
+    private float GetRandomShowTime() {
+        return Random.Range(minShowTime, maxShowTime);
     }
 }

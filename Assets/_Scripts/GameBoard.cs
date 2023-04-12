@@ -12,29 +12,10 @@ public class GameBoard
     private readonly GameController gameController;
 
     /// <summary>
-    ///     Reference to the hill prefab.
-    /// </summary>
-    private readonly GameObject hillPrefab;
-
-    /// <summary>
-    ///     Total time (in seconds) that a mole can be visible before dissapearing.
-    /// </summary>
-    private readonly float showTime;
-
-    /// <summary>
-    ///     List of Mole objects.
-    /// </summary>
-    public List<Mole> Moles { get; private set; }
-
-    /// <summary>
     ///     Initializes a new instance of the <see cref="GameBoard"/> class.
     /// </summary>
-    public GameBoard(GameController gameController, GameObject hillPrefab, int totalMoleHills, float showTime) {
+    public GameBoard(GameController gameController, int totalMoleHills) {
         this.gameController = gameController;
-        this.hillPrefab = hillPrefab;
-        this.showTime = showTime;
-
-        Moles = new List<Mole>();
 
         GenerateMoleHills(totalMoleHills);
     }
@@ -80,23 +61,9 @@ public class GameBoard
             // Loop over hills in a row.
             for (int j = 0; j < hillsInRow; j++) {
                 Vector2 worldPosition = new Vector2(extraXOffset + (j * xOffset), startPosY - (i * yOffset));
-                InstantiateMoles(worldPosition);
+                gameController.InstantiateMoles(worldPosition);
             }
         }
-    }
-
-    /// <summary>
-    ///     Instantiate a mole object attached to a hill object.
-    /// </summary>
-    /// <param name="worldPosition">The position in the world this mole should be instantiated on.</param>
-    private void InstantiateMoles(Vector2 worldPosition) {
-        var hillObject = Object.Instantiate(hillPrefab);
-        hillObject.transform.SetParent(gameController.gameObject.transform);
-        hillObject.transform.position = worldPosition;
-
-        Mole mole = hillObject.GetComponentInChildren<Mole>();
-        mole.SetUp(gameController, showTime);
-        Moles.Add(mole);
     }
 
     /// <summary>
