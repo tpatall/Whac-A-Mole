@@ -3,13 +3,13 @@ using UnityEngine;
 /// <summary>
 ///     Handles the UI-panel that contains the UI-elements that need this functionality.
 /// </summary>
-public class HighscoresPanel : MonoBehaviour
+public class HighScoresPanel : MonoBehaviour
 {
     /// <summary>
     ///     Reference to the highScoreTable-element.
     /// </summary>
     [SerializeField]
-    private HighscoresTable highscoresTable;
+    private HighScoresTable highscoresTable;
 
     /// <summary>
     ///     Loads the Menu-scene.

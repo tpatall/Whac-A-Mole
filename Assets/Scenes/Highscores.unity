@@ -336,7 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 772456152}
   - component: {fileID: 772456154}
-  - component: {fileID: 772456153}
+  - component: {fileID: 772456155}
   m_Layer: 5
   m_Name: HighscoresPanel
   m_TagString: Untagged
@@ -370,7 +370,15 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &772456153
+--- !u!222 &772456154
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772456151}
+  m_CullTransparentMesh: 1
+--- !u!114 &772456155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,18 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264591e514de90940927c890e41374d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  easyButton: {fileID: 1366545317}
-  mediumButton: {fileID: 1437262141}
-  hardButton: {fileID: 783440130}
   highscoresTable: {fileID: 1548478780}
---- !u!222 &772456154
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 772456151}
-  m_CullTransparentMesh: 1
 --- !u!1 &783440128
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,8 +475,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 772456153}
-        m_TargetAssemblyTypeName: HighscoresPanel, Assembly-CSharp
+      - m_Target: {fileID: 772456155}
+        m_TargetAssemblyTypeName: HighScoresPanel, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
         m_Arguments:
@@ -612,8 +609,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 772456153}
-        m_TargetAssemblyTypeName: HighscoresPanel, Assembly-CSharp
+      - m_Target: {fileID: 772456155}
+        m_TargetAssemblyTypeName: HighScoresPanel, Assembly-CSharp
         m_MethodName: GetHardHighscores
         m_Mode: 1
         m_Arguments:
@@ -746,8 +743,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 772456153}
-        m_TargetAssemblyTypeName: HighscoresPanel, Assembly-CSharp
+      - m_Target: {fileID: 772456155}
+        m_TargetAssemblyTypeName: HighScoresPanel, Assembly-CSharp
         m_MethodName: GetEasyHighscores
         m_Mode: 1
         m_Arguments:
@@ -1015,8 +1012,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 772456153}
-        m_TargetAssemblyTypeName: HighscoresPanel, Assembly-CSharp
+      - m_Target: {fileID: 772456155}
+        m_TargetAssemblyTypeName: HighScoresPanel, Assembly-CSharp
         m_MethodName: GetMediumHighscores
         m_Mode: 1
         m_Arguments:

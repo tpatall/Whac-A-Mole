@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Handles the filling of the highscores-table.
 ///     This class is responsible for loading in highscores and swapping between different lists for the UI.
 /// </summary>
-public class HighscoresTable : MonoBehaviour
+public class HighScoresTable : MonoBehaviour
 {
     /// <summary>
     ///     Holder for the highscore-table entries.
