@@ -31,44 +31,46 @@ public class ResultsPanel : MonoBehaviour
     /// </summary>
     private Difficulty difficulty;
 
+    public void SaveDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
     /// <summary>
     ///     Update the achieved final score.
     /// </summary>
     /// <param name="score">The final score.</param>
-    public void UpdateScore(int score, Difficulty difficulty) {
+    public void InitializeResults(int score) {
         finalScore = score;
-        this.difficulty = difficulty;
         finalScoreText.text = finalScore.ToString();
     }
 
     public void PlayAgain() {
-        Submit();
-        // LoadScene(this);
+        CheckAndSubmit(Scene.Game);
     }
 
     public void Home() {
-        Submit();
-        // LoadScene(menu);
+        CheckAndSubmit(Scene.Menu);
+    }
+
+    private void Start() {
+        errorText.text = "To submit a score you need to give a name. If you do not want to save your score, leave the name empty.";
     }
 
     /// <summary>
-    ///     Submit the score and player-name when the latter is filled in.
+    ///     Submit the score and player-name when the latter is filled in. Load the next scene afterwards.
     /// </summary>
-    private void Submit() {
-        if (inputField.text == "") {
-            errorText.text = "To submit a score you need to give a name. If you do not want to save your score, leave the name empty";
-        }
-        else {
-            errorText.text = "";
+    /// <param name="scene">The scene to load.</param>
+    private void CheckAndSubmit(Scene scene) {
+        if (inputField.text != "") {
             SaveScore();
         }
+        Loader.Load(scene);
     }
 
     /// <summary>
     ///     Call the Highscores-class to update the file.
     /// </summary>
     private void SaveScore() {
-        Highscores highscores = new Highscores();
-        highscores.UpdateHighScores(inputField.text, finalScore, difficulty);
+        new Highscores().UpdateHighScores(inputField.text, finalScore, difficulty);
     }
 }

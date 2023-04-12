@@ -117,6 +117,8 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(WaitForTearDown());
 
         IEnumerator WaitForTearDown() {
+            gameController.gameObject.SetActive(false);
+
             yield return new WaitForFixedUpdate();
 
             UpdateGameState(GameState.Results);

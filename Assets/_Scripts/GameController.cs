@@ -75,8 +75,6 @@ public class GameController : MonoBehaviour
     /// </summary>
     private float lastSpawn;
 
-    private Difficulty difficulty;
-
     /// <summary>
     ///     Whether the game is currently running. Used for managing remaining time.
     /// </summary>
@@ -113,6 +111,7 @@ public class GameController : MonoBehaviour
         TimeRemaining = gameDuration;
         Score = 0;
 
+        resultsPanel.SaveDifficulty(difficulty);
         stopWatch.SetUp(TimeRemaining);
         scoreboard.UpdateScore(Score);
 
@@ -174,7 +173,7 @@ public class GameController : MonoBehaviour
         IsGameRunning = false;
         stopWatch.StopStopwatch();
 
-        resultsPanel.UpdateScore(Score, difficulty);
+        resultsPanel.InitializeResults(Score);
 
         GameManager.Instance.UpdateGameState(GameState.TearDown);
     }
