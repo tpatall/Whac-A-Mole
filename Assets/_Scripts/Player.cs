@@ -1,11 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 /// <summary>
 ///     Handles the player interaction with the game board.
 /// </summary>
 public class Player : MonoBehaviour
 {
+    /// <summary>
+    ///     Total points that the player receives upon successfully whacking a mole.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("Total points that are rewarded upon successfully whacking a mole.")]
+    [Range(1, 100)]
+    private int scoreIncrement;
+
     /// <summary>
     ///     Reference to the game controller for requesting mole position.
     /// </summary>
@@ -40,7 +49,7 @@ public class Player : MonoBehaviour
 
                 if (playerClickPoint.x > moleLowX && playerClickPoint.x < moleHighX &&
                     playerClickPoint.y > moleLowY && playerClickPoint.y < moleHighY) {
-                    gameController.WhackMole(moles[i]);
+                    WhackMole(moles[i]);
                 }
             }
         }
@@ -54,5 +63,11 @@ public class Player : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
         return pos;
+    }
+
+    private void WhackMole(Mole mole) {
+        mole.Whacked();
+        int updatedScore = gameController.Score + scoreIncrement;
+        gameController.UpdateScore(updatedScore);
     }
 }

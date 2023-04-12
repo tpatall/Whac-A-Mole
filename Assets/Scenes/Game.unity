@@ -920,6 +920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb431fc8ef16894eae088e2bc422c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreIncrement: 10
   gameController: {fileID: 1995567375}
 --- !u!4 &437677152
 Transform:
@@ -966,6 +967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScoreText: {fileID: 1302443405}
+  gameController: {fileID: 1995567375}
 --- !u!4 &464616052
 Transform:
   m_ObjectHideFlags: 0
@@ -2085,7 +2087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &988442879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2215,6 @@ GameObject:
   - component: {fileID: 1131781029}
   - component: {fileID: 1131781028}
   - component: {fileID: 1131781027}
-  - component: {fileID: 1131781030}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -2298,18 +2299,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1995567373}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1131781028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2348,19 +2337,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1131781025}
   m_CullTransparentMesh: 1
---- !u!114 &1131781030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131781025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d5194650978e74ca8002009d5e4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasStarted: 0
 --- !u!1 &1167094049
 GameObject:
   m_ObjectHideFlags: 0
@@ -4070,7 +4046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1853678595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4442,13 +4418,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VisibleMoles: 0
-  xOffset: 1.4
-  yOffset: 2
-  gameDuration: 20
-  scoreIncrement: 10
+  gameDuration: 30
   hillPrefab: {fileID: 165455496854185155, guid: 1f094e861b5e83940a35c500d5068c8b, type: 3}
-  stopWatch: {fileID: 2032639112}
-  scoreboard: {fileID: 464616051}
   resultsPanel: {fileID: 1853678599}
 --- !u!1 &2032639111
 GameObject:
@@ -4461,7 +4432,7 @@ GameObject:
   - component: {fileID: 2032639113}
   - component: {fileID: 2032639112}
   m_Layer: 0
-  m_Name: Stopwatch
+  m_Name: Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4481,6 +4452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeTimerColor: 15
   currentTimeText: {fileID: 1325318546}
+  gameController: {fileID: 1995567375}
 --- !u!4 &2032639113
 Transform:
   m_ObjectHideFlags: 0

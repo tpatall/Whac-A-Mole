@@ -20,25 +20,11 @@ public class GameController : MonoBehaviour
     private int gameDuration;
 
     /// <summary>
-    ///     Total points one whacked mole is worth.
-    /// </summary>
-    [SerializeField]
-    [Tooltip("Total points that are rewarded upon succesfully whacking a mole.")]
-    [Range(1, 100)]
-    private int scoreIncrement;
-
-    /// <summary>
     ///     Prefab of a hill.
     /// </summary>
     [SerializeField]
     [Tooltip("The hill prefab which will be instantiated.")]
     private GameObject hillPrefab;
-
-    /// <summary>
-    ///     Reference to the scoreboard.
-    /// </summary>
-    [SerializeField]
-    private Scoreboard scoreboard;
 
     /// <summary>
     ///     Reference to the results panel.
@@ -51,23 +37,35 @@ public class GameController : MonoBehaviour
     /// </summary>
     private float lastSpawn;
 
+    /// <summary>
+    ///     Time between spawning a new mole, in seconds.
+    /// </summary>
+    private float timeBetweenSpawn;
+    
+    /// <summary>
+    ///     Reference to the gameboard.
+    /// </summary>
     private GameBoard gameBoard;
 
+    /// <summary>
+    ///     Get the Moles-list from the gameboard.
+    /// </summary>
     public List<Mole> Moles => gameBoard.Moles;
 
+    /// <summary>
+    ///     Total time remaining in this game.
+    /// </summary>
     public float TimeRemaining { get; private set; }
+    
     /// <summary>
     ///     Whether the game is currently running. Used for managing remaining time.
     /// </summary>
     public bool IsGameRunning { get; private set; }
 
-
-    public int Score { get; private set; }
-
     /// <summary>
-    ///     Time between spawning a new mole, in seconds.
+    ///     Current score.
     /// </summary>
-    private float TimeBetweenSpawn { get; set; }
+    public int Score { get; private set; }
 
     /// <summary>
     ///     Initialization of game variables.
@@ -80,7 +78,6 @@ public class GameController : MonoBehaviour
         Score = 0;
 
         resultsPanel.SaveDifficulty(difficulty);
-        scoreboard.UpdateScore(Score);
 
         InterpretDifficulty(difficulty);
     }
@@ -119,7 +116,7 @@ public class GameController : MonoBehaviour
                 break;
         }
 
-        TimeBetweenSpawn = timeBetweenSpawn;
+        this.timeBetweenSpawn = timeBetweenSpawn;
 
         // Create a gameboard that instantiates and maintains the mole hills on the board.
         gameBoard = new GameBoard(this, hillPrefab, moleHills, showTime);
@@ -144,22 +141,20 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    ///     When a mole is correctly clicked when it is visible.
+    ///     Update the score.
     /// </summary>
-    /// <param name="mole"></param>
-    public void WhackMole(Mole mole) {
-        mole.Whacked();
-
-        Score += scoreIncrement;
-        scoreboard.UpdateScore(Score);
+    /// <param name="updatedScore">The updated score.</param>
+    public void UpdateScore(int updatedScore) {
+        Score = updatedScore;
     }
 
-    void Update() {
+    // Update is called once per frame.
+    private void Update() {
         if (IsGameRunning) {
             TimeRemaining -= Time.deltaTime;
 
             // If the time remaining is less than the time of the last mole spawn minus the time allowed between spawns.
-            if (TimeRemaining < (lastSpawn - TimeBetweenSpawn)) {
+            if (TimeRemaining < (lastSpawn - timeBetweenSpawn)) {
                 // Dont spawn a mole when there already are 3 moles visible.
                 if (VisibleMoles < 3) {
                     SpawnMole();
