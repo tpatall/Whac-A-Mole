@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,9 +10,15 @@ using UnityEngine.UI;
 /// </summary>
 public class GameManager : Singleton<GameManager>
 {
+    /// <summary>
+    ///     Group of difficulty-toggles that can only have 1 active at a time.
+    /// </summary>
     [SerializeField]
     private ToggleGroup toggles;
 
+    /// <summary>
+    ///     Reference to the game controller.
+    /// </summary>
     [SerializeField]
     private GameController gameController;
 

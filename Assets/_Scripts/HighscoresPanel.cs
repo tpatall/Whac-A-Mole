@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-///     Handles the UI-panel that contains the UI-elements that need this functionality.
+///     Handles the Highscores-panel that contains the UI-elements that need this functionality.
 /// </summary>
 public class HighScoresPanel : MonoBehaviour
 {

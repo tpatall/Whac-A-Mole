@@ -1,10 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Handles the setup of the gameboard and keeps the list of mole(hills).
+/// </summary>
 public class GameBoard
 {
+    /// <summary>
+    ///     Reference to the GameController.
+    /// </summary>
     private readonly GameController gameController;
 
+    /// <summary>
+    ///     Reference to the hill prefab.
+    /// </summary>
     private readonly GameObject hillPrefab;
 
     /// <summary>
@@ -12,12 +21,20 @@ public class GameBoard
     /// </summary>
     private readonly float showTime;
 
+    /// <summary>
+    ///     List of Mole objects.
+    /// </summary>
     public List<Mole> Moles { get; private set; }
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="GameBoard"/> class.
+    /// </summary>
     public GameBoard(GameController gameController, GameObject hillPrefab, int totalMoleHills, float showTime) {
         this.gameController = gameController;
         this.hillPrefab = hillPrefab;
         this.showTime = showTime;
+
+        Moles = new List<Mole>();
 
         GenerateMoleHills(totalMoleHills);
     }
@@ -31,11 +48,10 @@ public class GameBoard
         // Vertical spacing between hills.
         float yOffset = 2f;
 
-        Moles = new List<Mole>();
-
         List<int> moleHillsLayout = GenerateOptimalLayout(totalMoleHills);
 
-        // Get the additional offset of the y-coordinate of the first row amount of rows, so that the field is still centered.
+        // Get the additional offset of the y-coordinate of the first row based on amount of rows,
+        // so that the overall *field* is still centered.
         float extraYOffset;
         if (moleHillsLayout.Count % 2 == 0) {
             extraYOffset = -yOffset * (moleHillsLayout.Count / 2) / 2;
@@ -44,15 +60,15 @@ public class GameBoard
             extraYOffset = -yOffset * (moleHillsLayout.Count / 2);
         }
 
-        // Change the y-coordinate of the startposition based off the amount of rows, so that the overall field is centered
+        // Set the starting y-coordinate based on offset and amount of rows.
         float startPosY = extraYOffset + yOffset * (moleHillsLayout.Count - 1);
 
-        // Loop over number of rows
+        // Loop over number of rows.
         for (int i = 0; i < moleHillsLayout.Count; i++) {
             int hillsInRow = moleHillsLayout[i];
 
-            // Get the additional offset of the x-coordinate of the first hill in the row
-            // based off the amount of hills in the row, so that the row is still centered.
+            // Get the additional offset of the y-coordinate of the first row based on amount of rows,
+            // so that the overall *row* is still centered.
             float extraXOffset;
             if (hillsInRow % 2 == 0) {
                 extraXOffset = (xOffset + -xOffset * hillsInRow) / 2;
@@ -61,7 +77,7 @@ public class GameBoard
                 extraXOffset = -xOffset * (hillsInRow / 2);
             }
 
-            // Loop over hills in a row
+            // Loop over hills in a row.
             for (int j = 0; j < hillsInRow; j++) {
                 Vector2 worldPosition = new Vector2(extraXOffset + (j * xOffset), startPosY - (i * yOffset));
                 InstantiateMoles(worldPosition);
@@ -69,6 +85,10 @@ public class GameBoard
         }
     }
 
+    /// <summary>
+    ///     Instantiate a mole object attached to a hill object.
+    /// </summary>
+    /// <param name="worldPosition">The position in the world this mole should be instantiated on.</param>
     private void InstantiateMoles(Vector2 worldPosition) {
         var hillObject = Object.Instantiate(hillPrefab);
         hillObject.transform.SetParent(gameController.gameObject.transform);

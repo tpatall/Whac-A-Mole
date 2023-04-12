@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+///     Handles the Results-panel that contains the UI-elements that need this functionality.
+/// </summary>
 public class ResultsPanel : MonoBehaviour
 {
     /// <summary>
@@ -31,6 +34,10 @@ public class ResultsPanel : MonoBehaviour
     /// </summary>
     private Difficulty difficulty;
 
+    /// <summary>
+    ///     Save the difficulty for choosing the right highscore list.
+    /// </summary>
+    /// <param name="difficulty">The chosen difficulty setting.</param>
     public void SaveDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
@@ -44,11 +51,17 @@ public class ResultsPanel : MonoBehaviour
         finalScoreText.text = finalScore.ToString();
     }
 
+    /// <summary>
+    ///     Reloads the Game-scene after checking if the score can be submitted.
+    /// </summary>
     public void PlayAgain() {
         CheckAndSubmit(Scene.Game);
     }
 
-    public void Home() {
+    /// <summary>
+    ///     Loads the Menu-scene after checking if the score can be submitted.
+    /// </summary>
+    public void Menu() {
         CheckAndSubmit(Scene.Menu);
     }
 
