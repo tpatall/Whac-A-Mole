@@ -1,11 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class MainMenuPanel : MonoBehaviour
 {
     public void StartGame() {
         Loader.Load(Scene.Game);
+    }
+
+    public void ViewHighscores() {
+        Loader.Load(Scene.Highscores);
     }
 
     public void Quit() {

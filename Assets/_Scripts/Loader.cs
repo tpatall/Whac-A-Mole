@@ -32,6 +32,7 @@ public class Loader : MonoBehaviour
 public enum Scene
 {
     Menu,
+    Highscores,
     Game,
     Loading
 }
