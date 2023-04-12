@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///     Controls the enum-based state switching.
 ///     This class is responsible for setting up the gameplay mechanics and keeping track of score and mole spawning.
 /// </summary>
 public class GameController : MonoBehaviour
@@ -12,22 +10,6 @@ public class GameController : MonoBehaviour
     ///     Total number of currently visible moles.
     /// </summary>
     public int VisibleMoles;
-
-    /// <summary>
-    ///     Size of horizontal spacing between hills..
-    /// </summary>
-    [SerializeField]
-    [Tooltip("Size of horizontal spacing between hills.")]
-    [Range(1f, 20f)]
-    private float xOffset;
-
-    /// <summary>
-    ///     Size of vertical spacing between hills..
-    /// </summary>
-    [SerializeField]
-    [Tooltip("Size of vertical spacing between hills.")]
-    [Range(1f, 20f)]
-    private float yOffset;
 
     /// <summary>
     ///     Total game duration in seconds.
@@ -53,12 +35,6 @@ public class GameController : MonoBehaviour
     private GameObject hillPrefab;
 
     /// <summary>
-    ///     Reference to the timer.
-    /// </summary>
-    [SerializeField]
-    private Stopwatch stopWatch;
-
-    /// <summary>
     ///     Reference to the scoreboard.
     /// </summary>
     [SerializeField]
@@ -75,26 +51,18 @@ public class GameController : MonoBehaviour
     /// </summary>
     private float lastSpawn;
 
+    private GameBoard gameBoard;
+
+    public List<Mole> Moles => gameBoard.Moles;
+
+    public float TimeRemaining { get; private set; }
     /// <summary>
     ///     Whether the game is currently running. Used for managing remaining time.
     /// </summary>
     public bool IsGameRunning { get; private set; }
 
-    public List<Mole> Moles { get; private set; }
-
-    public float TimeRemaining { get; private set; }
 
     public int Score { get; private set; }
-
-    /// <summary>
-    ///     Molehills of the current game.
-    /// </summary>
-    private int MoleHills { get; set; }
-
-    /// <summary>
-    ///     Total time (in seconds) that a mole can be visible before dissapearing.
-    /// </summary>
-    private float ShowTime { get; set; }
 
     /// <summary>
     ///     Time between spawning a new mole, in seconds.
@@ -106,17 +74,15 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="difficulty">Chosen difficulty</param>
     public void SetUp(Difficulty difficulty) {
-        lastSpawn = gameDuration - 3;
+        lastSpawn = gameDuration;
         IsGameRunning = false;
         TimeRemaining = gameDuration;
         Score = 0;
 
         resultsPanel.SaveDifficulty(difficulty);
-        stopWatch.SetUp(TimeRemaining);
         scoreboard.UpdateScore(Score);
 
         InterpretDifficulty(difficulty);
-        GenerateMoleHills();
     }
     
     /// <summary>
@@ -124,28 +90,28 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="difficulty">Chosen difficulty.</param>
     private void InterpretDifficulty(Difficulty difficulty) {
-        // Default number of molehills
-        int molehills = 1;
+        // Default number of molehills.
+        int moleHills = 1;
 
-        // Default time a mole can be shown
+        // Default time a mole can be shown.
         float showTime = 1f;
 
-        // Default time between spawning of moles
+        // Default time between spawning of moles.
         int timeBetweenSpawn = 2;
 
         switch (difficulty) {
             case Difficulty.EASY:
-                molehills = 6;
+                moleHills = 6;
                 showTime = 2f;
                 timeBetweenSpawn = 3;
                 break;
             case Difficulty.MEDIUM:
-                molehills = 9;
+                moleHills = 9;
                 showTime = 1.75f;
                 timeBetweenSpawn = 2;
                 break;
             case Difficulty.HARD:
-                molehills = 12;
+                moleHills = 12;
                 showTime = 1.5f;
                 timeBetweenSpawn = 1;
                 break;
@@ -153,9 +119,10 @@ public class GameController : MonoBehaviour
                 break;
         }
 
-        MoleHills = molehills;
-        ShowTime = showTime;
         TimeBetweenSpawn = timeBetweenSpawn;
+
+        // Create a gameboard that instantiates and maintains the mole hills on the board.
+        gameBoard = new GameBoard(this, hillPrefab, moleHills, showTime);
     }
 
     /// <summary>
@@ -163,7 +130,6 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void StartGame() {
         IsGameRunning = true;
-        stopWatch.StartStopwatch();
     }
 
     /// <summary>
@@ -171,7 +137,6 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void EndGame() {
         IsGameRunning = false;
-        stopWatch.StopStopwatch();
 
         resultsPanel.InitializeResults(Score);
 
@@ -204,55 +169,6 @@ public class GameController : MonoBehaviour
 
             if (TimeRemaining <= 0) {
                 EndGame();
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Instantiate a prefabricated mole hill gameobject.
-    /// </summary>
-    private void GenerateMoleHills() {
-        Moles = new List<Mole>();
-
-        List<int> moleHills = BoardUtils.GenerateOptimalLayout(MoleHills);
-
-        // Get the additional offset of the y-coordinate of the first row amount of rows, so that the field is still centered.
-        float extraYOffset;
-        if (moleHills.Count % 2 == 0) {
-            extraYOffset = -yOffset * (moleHills.Count / 2) / 2;
-        }
-        else {
-            extraYOffset = -yOffset * (moleHills.Count / 2);
-        }
-
-        // Change the y-coordinate of the startposition based off the amount of rows, so that the overall field is centered
-        float startPosY = extraYOffset + yOffset * (moleHills.Count - 1);
-
-        // Loop over number of rows
-        for (int i = 0; i < moleHills.Count; i++) {
-            int hillsInRow = moleHills[i];
-
-            // Get the additional offset of the x-coordinate of the first hill in the row
-            // based off the amount of hills in the row, so that the row is still centered.
-            float extraXOffset;
-            if (hillsInRow % 2 == 0) {
-                extraXOffset = (xOffset + -xOffset * hillsInRow) / 2;
-            } else {
-                extraXOffset = -xOffset * (hillsInRow / 2);
-            }
-
-            // Loop over hills in a row
-            for (int j = 0; j < hillsInRow; j++) {
-
-                Vector2 worldPosition = new Vector2(extraXOffset + (j * xOffset), startPosY - (i * yOffset));
-
-                var hillObject = Instantiate(hillPrefab);
-                hillObject.transform.SetParent(gameObject.transform);
-                hillObject.transform.position = worldPosition;
-
-                Mole mole = hillObject.GetComponentInChildren<Mole>();
-                mole.SetUp(this, ShowTime);
-                Moles.Add(mole);
             }
         }
     }

@@ -1,14 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Handles the player interaction with the game board.
+/// </summary>
 public class Player : MonoBehaviour
 {
     /// <summary>
     ///     Reference to the game controller for requesting mole position.
     /// </summary>
     [SerializeField]
-    [Tooltip("The game controller.")]
     private GameController gameController;
 
     /// <summary>
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
 
             List<Mole> moles = gameController.Moles;
             
+            // Check for every visible mole if the clicked position matches their hitbox.
             for (int i = 0; i < moles.Count; i++) {
                 if (!moles[i].IsVisible) continue;
 

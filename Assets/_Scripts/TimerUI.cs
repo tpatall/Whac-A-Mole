@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-///     A stopwatch times how long a game is taking. Also has a startup countdown.
+///     Handles the timer that is displayed in the UI.
 /// </summary>
-public class Stopwatch : MonoBehaviour
+public class TimerUI : MonoBehaviour
 {
     /// <summary>
     ///     Fade timer color to red over 5 seconds to indicate time running out.
@@ -23,33 +22,25 @@ public class Stopwatch : MonoBehaviour
     private TextMeshProUGUI currentTimeText;
 
     /// <summary>
-    ///     Whether the stopwatch is active.
+    ///     Reference to the game controller that manages the passage of time.
     /// </summary>
-    private bool stopwatchActive = false;
+    [SerializeField]
+    private GameController gameController;
 
     /// <summary>
-    ///     Public property to see the time.
+    ///     Keep track of the time without calling gameController a lot.
     /// </summary>
-    public float CurrentTime { get; private set; }
-
-    /// <summary>
-    ///     SetUp this instance of the stopwatch class.
-    /// </summary>
-    /// <param name="timeRemaining">Time remaining as set in the game controller.</param>
-    public void SetUp(float timeRemaining) {
-        CurrentTime = timeRemaining;
-    }
+    private float timeRemaining = 0f;
 
     // Update is called once per frame
     void Update() {
-        if (stopwatchActive) {
-            if (CurrentTime > 0) {
-                CurrentTime -= Time.deltaTime;
-
+        if (gameController.IsGameRunning) {
+            timeRemaining = gameController.TimeRemaining;
+            if (timeRemaining > 0) {
                 // Fade to red for the last 20 seconds to indicate time running out.
-                if (CurrentTime < fadeTimerColor) {
-                    if (CurrentTime > (fadeTimerColor - 5)) {
-                        float progress = 1f / (CurrentTime - 10);
+                if (timeRemaining < fadeTimerColor) {
+                    if (timeRemaining > (fadeTimerColor - 5)) {
+                        float progress = 1f / (timeRemaining - 10);
                         Color fadingRed = new Color(0f + progress, 0f, 0f, 1f);
 
                         currentTimeText.faceColor = fadingRed;
@@ -62,22 +53,8 @@ public class Stopwatch : MonoBehaviour
                 }
             }
 
-            TimeSpan time = TimeSpan.FromSeconds(CurrentTime);
+            TimeSpan time = TimeSpan.FromSeconds(timeRemaining);
             currentTimeText.text = time.ToString(@"ss");
         }
-    }
-
-    /// <summary>
-    ///     Resume the stopwatch.
-    /// </summary>
-    public void StartStopwatch() {
-        stopwatchActive = true;
-    }
-
-    /// <summary>
-    ///     Pause the stopwatch.
-    /// </summary>
-    public void StopStopwatch() {
-        stopwatchActive = false;
     }
 }
