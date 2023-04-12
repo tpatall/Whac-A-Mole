@@ -130,19 +130,3 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     private void HandleResults() { }
 }
-
-public enum GameState
-{
-    Rules,
-    SetUp,
-    Play,
-    TearDown,
-    Results
-}
-
-public enum Difficulty
-{
-    EASY,
-    MEDIUM,
-    HARD
-}
