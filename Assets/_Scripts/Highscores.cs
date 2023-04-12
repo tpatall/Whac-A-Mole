@@ -83,7 +83,7 @@ public static class HighScores
         }
 
         string filename = "\\" + prefix + "highscores.txt";
-        string filePath = Application.dataPath + filename;
+        string filePath = Application.persistentDataPath + filename;
         return filePath;
     }
 }

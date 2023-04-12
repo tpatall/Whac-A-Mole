@@ -75,6 +75,7 @@ public class ResultsPanel : MonoBehaviour
     /// <param name="scene">The scene to load.</param>
     private void CheckAndSubmit(Scene scene) {
         if (inputField.text != "") {
+            inputField.text = inputField.text.Trim(',');
             SaveScore();
         }
         Loader.Load(scene);
