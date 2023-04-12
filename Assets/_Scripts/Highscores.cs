@@ -3,7 +3,11 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-public class Highscores
+/// <summary>
+///     Manages the highscore file(s).
+///     This class is responsible for loading the highscores, adding new scores, and saving it to the file.
+/// </summary>
+public static class HighScores
 {
     /// <summary>
     ///     Update and sort the highscore list when a new score is submitted.
@@ -11,10 +15,10 @@ public class Highscores
     /// <param name="playerName">Name of the player.</param>
     /// <param name="score">Score the player achieved.</param>
     /// <param name="difficulty">The chosen game difficulty.</param>
-    public void UpdateHighScores(string playerName, int score, Difficulty difficulty) {
-        List<PlayerScore> highScores = LoadHighScores(difficulty);
+    public static void UpdateHighScores(string playerName, int score, Difficulty difficulty) {
+        List<HighScoreEntry> highScores = LoadHighScores(difficulty);
 
-        PlayerScore playerScore = new PlayerScore { Name = playerName, Score = score };
+        HighScoreEntry playerScore = new HighScoreEntry { Name = playerName, Score = score };
         highScores.Add(playerScore);
         highScores = highScores.OrderByDescending(x => x.Score).ToList();
         SaveHighScores(highScores, difficulty);
@@ -25,8 +29,8 @@ public class Highscores
     /// </summary>
     /// <param name="difficulty">The chosen game difficulty.</param>
     /// <returns>A list of scores.</returns>
-    public List<PlayerScore> LoadHighScores(Difficulty difficulty) {
-        List<PlayerScore> highScores = new List<PlayerScore>();
+    public static List<HighScoreEntry> LoadHighScores(Difficulty difficulty) {
+        List<HighScoreEntry> highScores = new List<HighScoreEntry>();
 
         string filePath = GetFilePath(difficulty);
 
@@ -37,7 +41,7 @@ public class Highscores
                 if (parts.Length == 2) {
                     string name = parts[0];
                     int score = int.Parse(parts[1]);
-                    highScores.Add(new PlayerScore { Name = name, Score = score });
+                    highScores.Add(new HighScoreEntry { Name = name, Score = score });
                 }
             }
         }
@@ -50,11 +54,11 @@ public class Highscores
     /// </summary>
     /// <param name="highScores">The list of highscores.</param>
     /// <param name="difficulty">The chosen game difficulty.</param>
-    public void SaveHighScores(List<PlayerScore> highScores, Difficulty difficulty) {
+    public static void SaveHighScores(List<HighScoreEntry> highScores, Difficulty difficulty) {
         string filePath = GetFilePath(difficulty);
 
         using (StreamWriter writer = new StreamWriter(filePath)) {
-            foreach (PlayerScore score in highScores) {
+            foreach (HighScoreEntry score in highScores) {
                 writer.WriteLine("{0},{1}", score.Name, score.Score);
             }
         }
@@ -64,7 +68,7 @@ public class Highscores
     ///     Get the (hardcoded) file from the filepath.
     /// </summary>
     /// <returns>The filepath.</returns>
-    private string GetFilePath(Difficulty difficulty) {
+    private static string GetFilePath(Difficulty difficulty) {
         string prefix = "";
         switch (difficulty) {
             case Difficulty.EASY:
@@ -82,11 +86,4 @@ public class Highscores
         string filePath = Application.dataPath + filename;
         return filePath;
     }
-
-}
-
-public struct PlayerScore
-{
-    public string Name;
-    public int Score;
 }

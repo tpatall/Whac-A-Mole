@@ -71,6 +71,6 @@ public class ResultsPanel : MonoBehaviour
     ///     Call the Highscores-class to update the file.
     /// </summary>
     private void SaveScore() {
-        new Highscores().UpdateHighScores(inputField.text, finalScore, difficulty);
+        HighScores.UpdateHighScores(inputField.text, finalScore, difficulty);
     }
 }
