@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
             
             // Check for every visible mole if the clicked position matches their hitbox.
             for (int i = 0; i < moles.Count; i++) {
-                if (!moles[i].IsVisible) continue;
+                if (!moles[i].IsVisible || moles[i].Whacked) continue;
 
                 Vector2 molePosition = moles[i].gameObject.transform.position;
                 float moleLowX = molePosition.x - 0.5f;
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     }
 
     private void WhackMole(Mole mole) {
-        mole.Whacked();
+        mole.GotWhacked();
         int updatedScore = gameController.Score + scoreIncrement;
         gameController.UpdateScore(updatedScore);
     }

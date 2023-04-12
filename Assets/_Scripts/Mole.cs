@@ -1,14 +1,20 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
+/// <summary>
+///     Handles a mole object and its actions.
+/// </summary>
 public class Mole : MonoBehaviour
 {
+    /// <summary>
+    ///     Normal sprite for a mole.
+    /// </summary>
     [SerializeField]
     private Sprite moleSprite;
 
+    /// <summary>
+    ///     Sprite to show when the mole gets whacked.
+    /// </summary>
     [SerializeField]
     private Sprite deadSprite;
 
@@ -18,20 +24,29 @@ public class Mole : MonoBehaviour
     private float showTime;
 
     /// <summary>
-    ///     Public property to see the time.
+    ///     Reference to the gameController.
     /// </summary>
-    public float CurrentTime { get; private set; }
+    private GameController gameController;
+
+    /// <summary>
+    ///     Reference to its attached spriteRenderer.
+    /// </summary>
+    private SpriteRenderer spriteRenderer;
 
     /// <summary>
     ///     Whether the mole is currently visible.
     /// </summary>
-    public bool IsVisible; //{ get; set; }
+    public bool IsVisible { get; private set; }
 
-    private GameController gameController;
+    /// <summary>
+    ///     If the mole has been whacked, to swap sprites.
+    /// </summary>
+    public bool Whacked { get; private set; }
 
-    private SpriteRenderer spriteRenderer;
-
-    private bool whacked;
+    /// <summary>
+    ///     Public property to see the time.
+    /// </summary>
+    public float CurrentTime { get; private set; }
 
     /// <summary>
     ///     SetUp this instance of the mole class.
@@ -48,7 +63,7 @@ public class Mole : MonoBehaviour
     }
     
     void Update() {
-        if (IsVisible && !whacked) {
+        if (IsVisible && !Whacked) {
             CurrentTime -= Time.deltaTime;
 
             if (CurrentTime <= 0) {
@@ -62,15 +77,18 @@ public class Mole : MonoBehaviour
     /// </summary>
     public void Show() {
         spriteRenderer.sprite = moleSprite;
-        whacked = false;
+        Whacked = false;
 
         IsVisible = true;
         gameController.VisibleMoles++;
         gameObject.SetActive(true);
     }
 
-    public void Whacked() {
-        whacked = true;
+    /// <summary>
+    ///     Change the sprite and delay its hiding when they got whacked.
+    /// </summary>
+    public void GotWhacked() {
+        Whacked = true;
 
         spriteRenderer.sprite = deadSprite;
 
